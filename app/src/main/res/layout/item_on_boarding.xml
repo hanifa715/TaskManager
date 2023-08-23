@@ -6,13 +6,25 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    <TextView
+        android:id="@+id/btn_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="SKIP"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <ImageView
         android:id="@+id/iv_board"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="80dp" />
+        android:layout_marginTop="80dp"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -46,8 +58,8 @@
         android:id="@+id/btn_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Get started"
         android:backgroundTint="@color/pink"
+        android:text="Get started"
         android:textColor="@color/black"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent" />

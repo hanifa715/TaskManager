@@ -23,13 +23,4 @@
         app:ci_width="12dp"
         app:ci_height="12dp"
         app:ci_margin="12dp" />
-    <Button
-        android:id="@+id/btn_skip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SKIP"
-        android:textColor="@color/black"
-        android:backgroundTint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="visible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

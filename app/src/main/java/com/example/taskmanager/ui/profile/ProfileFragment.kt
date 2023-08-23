@@ -1,16 +1,26 @@
 package com.example.taskmanager.ui.profile
 
+import android.app.Activity
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.taskmanager.R
-import com.example.taskmanager.databinding.FragmentNotificationsBinding
+import androidx.core.widget.addTextChangedListener
+import com.example.taskmanager.data.local.Pref
 import com.example.taskmanager.databinding.FragmentProfileBinding
+import com.example.taskmanager.utils.loadImage
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 
 class ProfileFragment : Fragment() {
-    private lateinit var binding : FragmentProfileBinding
+    private lateinit var binding: FragmentProfileBinding
+
+    private val pref: Pref by lazy {
+        Pref(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,4 +30,49 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.etName.setText(pref.getName())
+        binding.etName.addTextChangedListener {
+            pref.saveName(binding.etName.text.toString())
+        }
+        if (pref.getAvatar()?.isNotEmpty() == true) {
+            pref.getAvatar()?.let { binding.profileImage.loadImage(it) }
+        }
+        binding.profileImage.setOnClickListener {
+            pickImageGallery()
+        }
+    }
+
+    private fun pickImageGallery() {
+        CropImage.activity()
+            .setAspectRatio(1, 1)
+            .setRequestedSize(1080, 1080)
+            .setCropShape(CropImageView.CropShape.OVAL)
+            .start(requireActivity(), this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            val resultUri = CropImage.getActivityResult(data).uri
+            pref.saveAvatar(resultUri.toString())
+            pref.getAvatar()?.let { binding.profileImage.loadImage(it) }
+
+        }
+    }
+    /*private fun pickImageGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image"
+        startActivityForResult(intent, IMAGE_REQUEST_CODE)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
+            binding.profileImage.setImageURI(data?.data)
+        }
+    }*/
+
+
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.taskmanager.R
+import com.example.taskmanager.data.local.Pref
 import com.example.taskmanager.databinding.FragmentOnBoardingBinding
 import com.example.taskmanager.ui.onboarding.adapter.OnBoardingAdapter
 import me.relex.circleindicator.CircleIndicator3
@@ -15,6 +16,9 @@ class OnBoardingFragment : Fragment() {
 
     private lateinit var binding: FragmentOnBoardingBinding
     private val adapter = OnBoardingAdapter(this::onClick)
+    private val pref: Pref by lazy {
+        Pref(requireContext())
+    }
 
 
     override fun onCreateView(
@@ -28,15 +32,12 @@ class OnBoardingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewPager.adapter = adapter
-        val indicator: CircleIndicator3 = binding.indicator
-        indicator.setViewPager(binding.viewPager)
-        binding.btnSkip.setOnClickListener {
-            onClick()
-        }
+        binding.indicator.setViewPager(binding.viewPager)
 
     }
 
     private fun onClick() {
+        pref.onBoardingShow()
         findNavController().navigateUp()
     }
 }

@@ -60,10 +60,14 @@ class OnBoardingAdapter(
             tvTitle.text = onBoarding.title
             tvDesc.text = onBoarding.description
             Glide.with(ivBoard).load(onBoarding.image).into(ivBoard)
-            if (adapterPosition == list.lastIndex) {
-                binding.btnStart.isVisible = true
-            }
+
+            binding.btnStart.isVisible = adapterPosition == list.lastIndex
+            binding.btnSkip.isVisible = adapterPosition != list.lastIndex
+
             binding.btnStart.setOnClickListener {
+                onClick()
+            }
+            binding.btnSkip.setOnClickListener {
                 onClick()
             }
         }
