@@ -2,17 +2,20 @@ package com.example.taskmanager.ui.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView.Adapter
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.databinding.ItemTaskBinding
 import com.example.taskmanager.model.Task
 
-class TaskAdapter : Adapter<TaskAdapter.TaskViewHolder>() {
-    private val list: ArrayList<Task> = arrayListOf()
+class TaskAdapter(
+    val onLongClickItem: (task: Task) -> Unit
+) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
-    fun addTask(task: Task){
-        list.add(0,task)
-        notifyItemChanged(0)
+    private val list = arrayListOf<Task>()
+
+    fun addTasks(tasks: List<Task>) {
+        list.clear()
+        list.addAll(tasks)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -27,17 +30,24 @@ class TaskAdapter : Adapter<TaskAdapter.TaskViewHolder>() {
 
     override fun getItemCount(): Int {
         return list.size
-
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.bind(list.get(position))
+        holder.bind(list[position])
     }
 
-    inner class TaskViewHolder(private val binding: ItemTaskBinding) : ViewHolder(binding.root) {
-        fun bind(task: Task)  {
-            binding.tvTitle.text = task.title
-                binding.tvDesc.text = task.description
+    inner class TaskViewHolder(private val binding: ItemTaskBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(task: Task) = with(binding) {
+            tvTitle.text = task.title
+            tvDesc.text = task.description
+
+            itemView.setOnLongClickListener {
+                onLongClickItem(task)
+                true
+            }
+
         }
     }
 }
