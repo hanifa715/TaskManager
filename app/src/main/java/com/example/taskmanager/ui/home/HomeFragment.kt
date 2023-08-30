@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
@@ -19,7 +20,7 @@ import com.example.taskmanager.ui.task.TaskFragment
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
 
-    private val adapter = TaskAdapter(this::onLongClickItem)
+    private val adapter = TaskAdapter(this::onLongClickItem,this::onClick)
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -48,6 +49,11 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
+    private fun onClick(task: Task){
+        findNavController().navigate(R.id.taskFragment, bundleOf(TASK_FOR_EDIT to task))
+
+    }
+
     private fun onLongClickItem(task: Task){
         showAlertDialog(task)
     }
@@ -66,6 +72,9 @@ class HomeFragment : Fragment() {
 
             }
             .show()
+    }
+    companion object{
+        const val TASK_FOR_EDIT = "task.edit"
     }
 
 

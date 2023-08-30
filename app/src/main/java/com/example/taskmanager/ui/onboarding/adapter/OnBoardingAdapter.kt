@@ -19,19 +19,19 @@ class OnBoardingAdapter(
 
     private val list = arrayListOf(
         OnBoarding(
-            title = "Plan a Trip",
-            description = "Be ready to depart anytime, anywhere",
-            image = "https://rimage.gnst.jp/livejapan.com/public/article/detail/a/00/00/a0000276/img/basic/a0000276_main.jpg?20170427165412"
+            title = "Track your tasks progress",
+            description = "Never forget important things",
+            anim = R.raw.animation_llw3trlq
         ),
         OnBoarding(
-            title = "Book the Flight",
-            description = "Pay in seconds",
-            image = "https://live.staticflickr.com/5301/5639492325_3f373fbac9_b.jpg"
+            title = "Your personal task manager",
+            description = "Free up some time for yourself",
+            anim = R.raw.animation_llw468yt
         ),
         OnBoarding(
-            title = "Enjoy your Trip",
-            description = "Bringing you joy ",
-            image = "https://www.xinhuanet.com/world/2016-09/08/129273462_14732907165901n.jpg"
+            title = "Complete tasks easily",
+            description = "Leave no job behind",
+            anim = R.raw.animation_llw46opi
         )
     )
 
@@ -59,7 +59,10 @@ class OnBoardingAdapter(
         fun bind(onBoarding: OnBoarding) = with(binding) {
             tvTitle.text = onBoarding.title
             tvDesc.text = onBoarding.description
-            Glide.with(ivBoard).load(onBoarding.image).into(ivBoard)
+            onBoarding.anim?.let {
+                binding.animBoard.setAnimation(onBoarding.anim)
+                binding.animBoard.playAnimation()
+            }
 
             binding.btnStart.isVisible = adapterPosition == list.lastIndex
             binding.btnSkip.isVisible = adapterPosition != list.lastIndex

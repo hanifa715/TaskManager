@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import com.example.taskmanager.data.local.Pref
 import com.example.taskmanager.databinding.FragmentProfileBinding
-import com.example.taskmanager.utils.loadImage
 import com.theartofdev.edmodo.cropper.CropImage
+import com.example.taskmanager.utils.loadImage
 import com.theartofdev.edmodo.cropper.CropImageView
 
 class ProfileFragment : Fragment() {
@@ -47,7 +47,7 @@ class ProfileFragment : Fragment() {
 
     private fun pickImageGallery() {
         CropImage.activity()
-            .setAspectRatio(1, 1)
+            .setAspectRatio(1,1)
             .setRequestedSize(1080, 1080)
             .setCropShape(CropImageView.CropShape.OVAL)
             .start(requireActivity(), this)
@@ -62,17 +62,4 @@ class ProfileFragment : Fragment() {
 
         }
     }
-    /*private fun pickImageGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image"
-        startActivityForResult(intent, IMAGE_REQUEST_CODE)
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
-            binding.profileImage.setImageURI(data?.data)
-        }
-    }*/
-
-
 }
