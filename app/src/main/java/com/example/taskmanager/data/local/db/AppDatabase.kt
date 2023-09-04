@@ -6,7 +6,7 @@ import com.example.taskmanager.model.Task
 
 
 
-    @Database(entities = [Task::class], version = 1)
+    @Database(entities = [Task::class], version = 2)
     abstract class AppDatabase : RoomDatabase() {
         abstract fun taskDao(): TaskDao
 

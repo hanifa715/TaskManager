@@ -20,7 +20,7 @@ import com.example.taskmanager.ui.task.TaskFragment
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
 
-    private val adapter = TaskAdapter(this::onLongClickItem,this::onClick)
+    private val adapter = TaskAdapter(this::onLongClickItem, this::onClick, this::onSuccess)
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -35,9 +35,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.adapter = adapter
-
-        val data = App.db.taskDao().getAll()
-        adapter.addTasks(data)
+        setData()
 
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.taskFragment)
@@ -49,12 +47,11 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun onClick(task: Task){
+    private fun onClick(task: Task) {
         findNavController().navigate(R.id.taskFragment, bundleOf(TASK_FOR_EDIT to task))
-
     }
 
-    private fun onLongClickItem(task: Task){
+    private fun onLongClickItem(task: Task) {
         showAlertDialog(task)
     }
 
@@ -63,19 +60,27 @@ class HomeFragment : Fragment() {
         dialog.setTitle(task.title.toString())
             .setMessage("Do you want to delete this message?")
             .setCancelable(true)
-            .setPositiveButton("Yes"){_,_ ->
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
                 App.db.taskDao().delete(task)
-                val data = App.db.taskDao().getAll()
-                adapter.addTasks(data)
+                setData()
             }
-            .setNegativeButton("No"){_,_ ->
+            .setNegativeButton(getString(R.string.no)) { _, _ ->
 
             }
             .show()
     }
-    companion object{
+
+    private fun onSuccess(task: Task) {
+        App.db.taskDao().update(task)
+        setData()
+    }
+
+    companion object {
         const val TASK_FOR_EDIT = "task.edit"
     }
 
-
+    private fun setData() {
+        val data = App.db.taskDao().getAll()
+        adapter.addTasks(data)
+    }
 }

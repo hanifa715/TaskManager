@@ -11,11 +11,14 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import com.example.taskmanager.data.local.Pref
 import com.example.taskmanager.databinding.FragmentProfileBinding
-import com.theartofdev.edmodo.cropper.CropImage
 import com.example.taskmanager.utils.loadImage
+import com.theartofdev.edmodo.cropper.CropImage
+
 import com.theartofdev.edmodo.cropper.CropImageView
 
+
 class ProfileFragment : Fragment() {
+
     private lateinit var binding: FragmentProfileBinding
 
     private val pref: Pref by lazy {

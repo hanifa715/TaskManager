@@ -13,9 +13,7 @@ import com.example.taskmanager.model.OnBoarding
 
 class OnBoardingAdapter(
     private val onClick: () -> Unit,
-) :
-    Adapter<OnBoardingAdapter.OnBoardingViewHolder>() {
-
+) : Adapter<OnBoardingAdapter.OnBoardingViewHolder>() {
 
     private val list = arrayListOf(
         OnBoarding(
@@ -34,7 +32,6 @@ class OnBoardingAdapter(
             anim = R.raw.animation_llw46opi
         )
     )
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnBoardingViewHolder {
         return OnBoardingViewHolder(

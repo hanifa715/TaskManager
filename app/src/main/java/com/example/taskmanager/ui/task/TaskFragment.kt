@@ -44,6 +44,7 @@ class TaskFragment : Fragment() {
 
     private fun update() {
         val data = Task(
+            id = task?.id,
             title = binding.etTitle.text.toString(),
             description = binding.etDesc.text.toString()
         )
@@ -59,10 +60,5 @@ class TaskFragment : Fragment() {
         )
         App.db.taskDao().insert(data)
         findNavController().navigateUp()
-    }
-
-    companion object {
-        const val REQUEST_RESULT = "request.result"
-        const val TASK_KEY = "task.key"
     }
 }
