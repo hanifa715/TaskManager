@@ -1,5 +1,6 @@
 package com.example.taskmanager.ui.home.adapter
 
+import android.graphics.Color
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -45,31 +46,20 @@ class TaskAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(task: Task) = with(binding) {
-
-            if (position % 2 == 0) {
-                itemView.setBackgroundResource(R.color.white)
-                tvTitle.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
-                tvDesc.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
-            } else {
-                itemView.setBackgroundResource(R.color.black)
-                tvTitle.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
-                tvDesc.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
-            }
-
-            checkbox.isChecked = task.isSuccess
-            if(task.isSuccess){
-                tvTitle.paintFlags = tvTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-               tvDesc.paintFlags = tvDesc.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            }else{
-                tvTitle.paintFlags = 0
-                tvDesc.paintFlags = 0
-            }
-
             tvTitle.text = task.title
             tvDesc.text = task.description
+            checkbox.isChecked = task.isSuccess
             checkbox.setOnCheckedChangeListener{_,isSuccess ->
                 onSuccess(task.copy(isSuccess = isSuccess))
             }
+
+            itemView.setBackgroundColor(if (adapterPosition % 2 == 0)Color.BLACK else Color.WHITE)
+            tvTitle.setTextColor(if (adapterPosition % 2 == 0)Color.WHITE else Color.BLACK)
+            tvDesc.setTextColor(if (adapterPosition % 2 == 0)Color.WHITE else Color.BLACK)
+
+            tvTitle.paintFlags = if(task.isSuccess)tvTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+            tvDesc.paintFlags = if(task.isSuccess)tvDesc.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+
             itemView.setOnLongClickListener {
                 onLongClickItem(task)
                 true
